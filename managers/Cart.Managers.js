@@ -98,11 +98,11 @@ class CartManager {
       //Buscando el producto con el ID proporcionado
       const product = cart.products.find(p => p.product === productId);
       if (product) {
-        product.quantity += quantity;
+        product.quantity += 1;
       } else {
         cart.products.push({
           product: productId,
-          quantity: quantity
+          quantity: 1
         });
       }
 
