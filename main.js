@@ -8,88 +8,98 @@ const context = async () => {
     title: 'producto de prueba',
     description: 'Este es un producto de prueba',
     price: 200,
-    thumbnail: 'Sin imagen',
+    thumbnails: [],
     code: 'abc123',
-    stock: 25
+    stock: 25,
+    status: true
   }
   let tasaDeGato = {
     title: 'Taza de gato',
     description: 'Una tasa de gato linda',
     price: 500,
-    thumbnail: 'Sin imagen',
+    thumbnails: [],
     code: 'abc2',
-    stock: 15
+    stock: 15,
+    status: true
   }
   let televisor = {
     title: 'Televisor Led 32"',
     description: 'Television grande',
     price: 1000,
-    thumbnail: 'Sin imagen',
+    thumbnails: [],
     code: 'abc3',
-    stock: 5
+    stock: 5,
+    status: true
   }
   let tablet = {
     title: 'Tablet Samsung',
     description: '8.7", 32gb, WIFI',
     price: 1500,
-    thumbnail: 'Sin imagen',
+    thumbnails: [],
     code: 'abc4',
-    stock: 8
+    stock: 8,
+    status: true
   }
   let consola = {
     title: 'Nintendo 64',
     description: 'consola',
     price: 800,
-    thumbnail: 'Sin imagen',
+    thumbnails: [],
     code: 'abc5',
-    stock: 7
+    stock: 7,
+    status: true
   }
   let aspiradora = {
     title: 'Aspiradora LG',
     description: 'Aspiradora grande',
     price: 2000,
-    thumbnail: 'Sin imagen',
+    thumbnails: [],
     code: 'abc6',
-    stock: 9
+    stock: 9,
+    status: true
   }
   let computador = {
     title: 'Computador Lenovo',
     description: 'Formato escritorio',
     price: 5000,
-    thumbnail: 'Sin imagen',
+    thumbnails: [],
     code: 'abc7',
-    stock: 25
+    stock: 25,
+    status: true
   }
   let kindle = {
     title: 'Kindle fire',
     description: 'Lectura',
     price: 6000,
-    thumbnail: 'Sin imagen',
+    thumbnails: [],
     code: 'abc8',
-    stock: 8
+    stock: 8,
+    status: true
   }
   let celular = {
     title: 'Celular Xiaomi',
     description: 'Poco M5',
     price: 5000,
-    thumbnail: 'Sin imagen',
+    thumbnails: [],
     code: 'abc9',
-    stock: 6
+    stock: 6,
+    status: true
   }
   let mouse = {
     title: 'Razer Viper',
     description: '8khz Negro',
     price: 4000,
-    thumbnail: 'Sin imagen',
+    thumbnails: [],
     code: 'abc10',
-    stock: 4
+    stock: 4,
+    status: true
   }
 
 
   /* Comentar/descomentar para testear */
 
   //1) Para agregar nuevos productos, escriba la variable del producto a agregar en el parametro de addProduct.
-  //await productManager.addProduct(testProduct);
+  /* await productManager.addProduct(mouse); */
 
   //2) Mostrando los productos agregados actualmente:
   /* console.log(await productManager.getProducts()); */

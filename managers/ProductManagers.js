@@ -19,20 +19,21 @@ class ProductManager {
     }
   }
 
-  async addProduct({ title, description, price, thumbnail, code, stock }) {
+  async addProduct({ title, description, price, code, stock, category, thumbnails, status }) {
 
     const product = {
       title,
       description,
       price,
-      thumbnail,
       code,
-      stock
+      stock,
+      status: true,
+      category,
+      thumbnails: thumbnails.map(filename => `/img/${filename}`)
     }
-
-    if (!title || !description || !price || !thumbnail || !code || !stock) {
-      console.log("Datos incompletos");
-      return null;
+    //Comprobando que no falten datos o que no esten vacíos
+    if (!title || !description || !code || !price || !stock || !category || !thumbnails || !(typeof status === 'boolean') || typeof title !== 'string' || typeof description !== 'string' || typeof code !== 'string' || typeof category !== 'string' || !title.trim() || !description.trim() || !code.trim() || !category.trim()) {
+      throw new Error('Datos incompletos, por favor, verifica que los datos se estén enviando correctamente');
     }
 
     const products = await this.getProducts();
@@ -43,12 +44,14 @@ class ProductManager {
       throw new Error("El código del producto ya está en uso. Revisa que no hayan productos con el mismo código e intenta nuevamente.");
     }
 
+    //Generando Id automatica
     if (products.length > 0) {
       product.id = products[products.length - 1].id + 1;
     } else {
       product.id = 1;
     }
 
+    //Pusheando el producto nuevo
     products.push(product);
     await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'));
     return product;
@@ -72,9 +75,31 @@ class ProductManager {
       throw new Error("Producto no encontrado. Por favor, ingrese una id válida.");
     }
 
+    // Verificando que no se pueda actualizar a un objeto vacío
+    if (Object.keys(updates).length === 0) {
+      throw new Error('El objeto de actualización está vacío. Por favor, ingrese al menos una propiedad para actualizar.');
+    }
+
+    // Verificando que los tipos de datos de las propiedades actualizadas sean los correctos
+    if (typeof updates.title !== 'undefined' && typeof updates.title !== 'string') {
+      throw new Error('El título debe ser una cadena de texto.');
+    }
+    if (typeof updates.description !== 'undefined' && typeof updates.description !== 'string') {
+      throw new Error('La descripción debe ser una cadena de texto.');
+    }
+    if (typeof updates.code !== 'undefined' && typeof updates.code !== 'string') {
+      throw new Error('El código debe ser una cadena de texto.');
+    }
+    if (typeof updates.category !== 'undefined' && typeof updates.category !== 'string') {
+      throw new Error('La categoría debe ser una cadena de texto.');
+    }
+    if (typeof updates.status !== 'undefined' && typeof updates.status !== 'boolean') {
+      throw new Error('El estado debe ser un valor booleano.');
+    }
+
     // Comprobación de que la nueva id no existe en otro producto
     if (updates.id && updates.id !== productId && products.some((p) => p.id === updates.id)) {
-      throw new Error("Ya existe un producto con el mismo ID. Por favor, actualice con una ID diferente.");
+      throw new Error("Ya existe un producto con el mismo id. Por favor, actualice con una ID diferente.");
     }
 
     // Comprobación de que el nuevo código no existe en otro producto
@@ -101,7 +126,7 @@ class ProductManager {
 
     const product = products[index];
     products.splice(index, 1);
-
+    console.log(`El producto "${product.title}" fue eliminado con éxito.`);
     await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'));
   }
 }
