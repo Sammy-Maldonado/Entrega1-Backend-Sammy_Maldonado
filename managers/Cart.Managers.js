@@ -89,26 +89,30 @@ class CartManager {
   }
 
   async addProductToCart(cartId, productId, quantity) {
-      const carts = await this.getCarts();
-      //Buscando el carrito con el ID proporcionado
-      const cart = carts.find(c => c.id === cartId);
-      if (!cart) {
-        throw new Error('Carrito no encontrado. Por favor, ingrese una ID válida.');
-      }
-      //Buscando el producto con el ID proporcionado
-      const product = cart.products.find(p => p.product === productId);
-      if (product) {
-        product.quantity += 1;
-      } else {
-        cart.products.push({
-          product: productId,
-          quantity: 1
-        });
-      }
+    const carts = await this.getCarts();
+    //Buscando el carrito con el ID proporcionado
+    const cart = carts.find(c => c.id === cartId);
+    if (!cart) {
+      throw new Error('Carrito no encontrado. Por favor, ingrese una ID válida.');
+    }
+    // Validando si el ID del producto es mayor que 0
+    if (productId <= 0) {
+      throw new Error('El ID del producto debe ser mayor que 0.');
+    }
+    //Buscando el producto con el ID proporcionado
+    const product = cart.products.find(p => p.product === productId);
+    if (product) {
+      product.quantity += 1;
+    } else {
+      cart.products.push({
+        product: productId,
+        quantity: 1
+      });
+    }
 
-      //Reescribiendo los cambios
-      await fs.promises.writeFile(this.path, JSON.stringify(carts, null, '\t'), 'utf-8')
-      return cart;
+    //Reescribiendo los cambios
+    await fs.promises.writeFile(this.path, JSON.stringify(carts, null, '\t'), 'utf-8')
+    return cart;
   }
 
 }
